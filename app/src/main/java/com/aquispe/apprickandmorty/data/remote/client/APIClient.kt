@@ -6,13 +6,16 @@ import java.util.concurrent.TimeUnit
 
 object APIClient {
 
-    fun createHttpClient(): OkHttpClient = HttpLoggingInterceptor().run {
-        level = HttpLoggingInterceptor.Level.BODY
+    fun getHttpClient(): OkHttpClient  {
 
-        OkHttpClient.Builder()
-            .connectTimeout(30, TimeUnit.SECONDS)
-            .writeTimeout(30, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
-            .addInterceptor(this).build()
+        val httpLoggingInterceptor = HttpLoggingInterceptor()
+        httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+
+        return OkHttpClient.Builder()
+            .connectTimeout(20, TimeUnit.SECONDS)
+            .writeTimeout(20, TimeUnit.SECONDS)
+            .readTimeout(20, TimeUnit.SECONDS)
+            .addInterceptor(httpLoggingInterceptor)
+            .build()
     }
 }

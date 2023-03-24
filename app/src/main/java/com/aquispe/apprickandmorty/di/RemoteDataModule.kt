@@ -13,10 +13,10 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class RemoteDataModule {
+object RemoteDataModule {
 
     @Provides
-    fun provideHttpClient(): OkHttpClient = APIClient.createHttpClient()
+    fun provideHttpClient(): OkHttpClient = APIClient.getHttpClient()
 
     @Provides
     @Singleton
@@ -40,4 +40,4 @@ class RemoteDataModule {
     ): CharacterService = retrofit.create(CharacterService::class.java)
 }
 
-private const val BASE_URL = "https://rickandmortyapi.com"
+private const val BASE_URL = "https://rickandmortyapi.com/api/"

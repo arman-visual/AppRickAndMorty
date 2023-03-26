@@ -10,10 +10,10 @@ class RemoteCharacterDataSource @Inject constructor(
     private val characterService: CharacterService
 ) : CharacterDataSource {
 
-    override suspend fun getCharactersByPage(page: Int): Either<Throwable, Characters> {
+    override suspend fun getCharactersByPage(page: Int): Either<Throwable, List<Character>> {
         return Either.catch {
             characterService.getCharactersByPage(page)
-                .toDomain()
+                .results.map { it.toDomain() }
         }
     }
 

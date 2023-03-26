@@ -4,27 +4,25 @@ import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
 import com.aquispe.apprickandmorty.data.local.LocalCharacterDataSource
-import com.aquispe.apprickandmorty.data.local.toCharacterDbModel
 import com.aquispe.apprickandmorty.data.local.toDomain
 import com.aquispe.apprickandmorty.data.remote.datasource.RemoteCharacterDataSource
-import com.aquispe.apprickandmorty.domain.model.*
+import com.aquispe.apprickandmorty.domain.model.Character
 import javax.inject.Inject
 
 class CharactersRepository @Inject constructor(
     private val characterRemoteDataSource: RemoteCharacterDataSource,
     private val characterLocalDataSource: LocalCharacterDataSource
 ) {
-
-    suspend fun getCharactersByPage(page: Int): Either<Throwable, Characters> {
-        if (characterLocalDataSource.getCharacters().isEmpty()) {
+    suspend fun getCharactersByPage(page: Int): Either<Throwable, List<Character>> {
+        if (characterLocalDataSource.isEmpty()) {
             characterRemoteDataSource.getCharactersByPage(page).fold(
                 {
-                    return it.left()
+                    it.left()
                 }, { characters ->
-
+                    characterLocalDataSource.saveCharacters(characters)
                 })
         }
-        return characterRemoteDataSource.getCharactersByPage(page)
+        return characterLocalDataSource.getCharacters().map { it.toDomain() }.right()
     }
 
     suspend fun getAllCharacters(): Either<Throwable, List<Character>> {
@@ -34,9 +32,9 @@ class CharactersRepository @Inject constructor(
                     return it.left()
                 }, { characters ->
                     characterLocalDataSource.saveCharacters(characters)
+                    //Almacenar total de paginas?
                 })
         }
-
         return characterLocalDataSource.getCharacters().map { it.toDomain() }.right()
     }
 }

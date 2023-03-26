@@ -3,7 +3,7 @@ package com.aquispe.apprickandmorty.data.remote.mapper
 import com.aquispe.apprickandmorty.data.remote.model.*
 import com.aquispe.apprickandmorty.domain.model.*
 
-fun CharactersApiModel.toDomain() = Characters(
+fun CharactersResponse.toDomain() = Characters(
     info = info.toDomain(),
     results = results.map {
         it.toDomain()

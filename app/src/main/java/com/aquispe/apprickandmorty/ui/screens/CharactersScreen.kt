@@ -1,25 +1,32 @@
 package com.aquispe.apprickandmorty.ui.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.ImageLoader
+import coil.compose.AsyncImage
+import coil.disk.DiskCache
+import coil.memory.MemoryCache
+import coil.request.ImageRequest
 import com.aquispe.apprickandmorty.domain.model.Character
 
 @Composable
 fun CharactersScreen(viewModel: CharactersViewModel = hiltViewModel()) {
 
     val viewState = viewModel.viewState
+
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -45,10 +52,79 @@ private fun ProgressBar() {
 
 @Composable
 private fun CharactersContent(characters: List<Character>) {
-    TitleScreen(title = "Characters")
-    LazyHorizontalGrid(rows = GridCells.Fixed(2)){
-        items(characters.size) {
-            Text(text = characters[it].name)
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        LazyColumn(verticalArrangement = Arrangement.spacedBy(24.dp)) {
+            items(characters.size) {
+                CharacterCard(character = characters[it])
+            }
         }
+    }
+}
+
+@Composable
+fun CharacterCard(
+    character: Character
+) {
+    Card(
+        modifier = Modifier
+            .clickable { },
+        elevation = 16.dp,
+        shape = RoundedCornerShape(16.dp)
+    ) {
+        val context = LocalContext.current
+
+        val imageLoader = ImageLoader.Builder(context)
+            .memoryCache {
+                MemoryCache.Builder(context)
+                    .maxSizePercent(0.25)
+                    .build()
+            }
+            .diskCache {
+                DiskCache.Builder()
+                    .directory(context.cacheDir.resolve("image_cache"))
+                    .maxSizePercent(0.02)
+                    .build()
+            }
+            .build()
+
+        Row(
+            modifier = Modifier
+                .height(160.dp)
+                .fillMaxWidth()
+        ) {
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(character.image)
+                    .crossfade(true)
+                    .build(),
+                contentDescription = null,
+                imageLoader = imageLoader,
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .clip(
+                        RoundedCornerShape(
+                            bottomStart = 16.dp,
+                            bottomEnd = 0.dp,
+                            topStart = 16.dp,
+                            topEnd = 0.dp
+                        )
+                    )
+            )
+
+            DescriptionCharacter(character)
+        }
+    }
+}
+
+@Composable
+fun DescriptionCharacter(character: Character) {
+    Column(modifier = Modifier) {
+        Text(text = character.name)
+        Text(text = "${character.status} - ${character.species}")
+        Text(text = "Last known location:")
+        Text(text = character.origin.name)
     }
 }

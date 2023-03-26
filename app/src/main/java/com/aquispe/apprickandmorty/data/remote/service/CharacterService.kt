@@ -1,19 +1,19 @@
 package com.aquispe.apprickandmorty.data.remote.service
 
-import com.aquispe.apprickandmorty.data.remote.model.CharactersApiModel
+import com.aquispe.apprickandmorty.data.remote.model.CharactersResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface CharacterService {
 
     @GET("character")
-    suspend fun getAllCharacters(): CharactersApiModel
+    suspend fun getAllCharacters(): CharactersResponse
 
     @GET("character")
     suspend fun getCharactersByPage(
         @Query("page")
         page: Int
-    ): CharactersApiModel
+    ): CharactersResponse
 
     @GET("character")
     suspend fun getCharactersByFilter(
@@ -27,5 +27,5 @@ interface CharacterService {
         type: String,
         @Query("gender")
         gender: String,
-    ): CharactersApiModel
+    ): CharactersResponse
 }

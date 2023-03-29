@@ -2,50 +2,69 @@ package com.aquispe.apprickandmorty.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.aquispe.apprickandmorty.R
 import com.aquispe.apprickandmorty.domain.model.Character
+import com.aquispe.apprickandmorty.ui.screens.shared.CustomTopBar
+import com.aquispe.apprickandmorty.ui.screens.shared.ProgressBar
+import com.aquispe.apprickandmorty.ui.screens.shared.TextWithShadow
 
-//diseñar ambas pantallas
 //Paginar
-//Mostrar mensaje de error
 //Implementar Test
 @Composable
-fun DetailScreen(viewModel: DetailViewModel = hiltViewModel()) {
-    Column {
-        when (val viewState = viewModel.viewState) {
-            is DetailViewModel.ViewState.Content -> DetailContent(viewState.character)
-            is DetailViewModel.ViewState.Error -> Text(text = "Error")
-            DetailViewModel.ViewState.Loading -> Text(text = "Loading")
-        }
+fun DetailScreen(id: Int, viewModel: DetailViewModel = hiltViewModel()) {
+    Scaffold(
+        topBar = { CustomTopBar(title = "Detail") },
+        modifier = Modifier
+    ) {
+        viewModel.getCharacterById(id)
+        ScreenContent(id,viewModel, it)
     }
 }
 
 @Composable
-private fun DetailContent(viewState: Character) {
+private fun ScreenContent(
+    id:Int,
+    viewModel: DetailViewModel,
+    it: PaddingValues
+) {
+    when (val viewState = viewModel.viewState) {
+        is DetailViewModel.ViewState.Content -> DetailContent(it, viewState.character)
+        is DetailViewModel.ViewState.Error -> ErrorView(text = stringResource(R.string.unexpected_error)) {
+            viewModel.getCharacterById(id)
+        }
+        DetailViewModel.ViewState.Loading -> ProgressBar()
+    }
+}
+
+@Composable
+private fun DetailContent(
+    paddingValues: PaddingValues,
+    viewState: Character
+) {
     Column(
         modifier = Modifier
+            .padding(paddingValues)
             .verticalScroll(rememberScrollState())
             .fillMaxSize()
     ) {
@@ -74,7 +93,10 @@ private fun DetailContent(viewState: Character) {
 }
 
 @Composable
-private fun SectionWithInformation(titleInformation: String, information: String) {
+private fun SectionWithInformation(
+    titleInformation: String,
+    information: String
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -106,7 +128,10 @@ private fun SectionWithInformation(titleInformation: String, information: String
 }
 
 @Composable
-private fun ImageDetail(name: String, imageUrl: String) {
+private fun ImageDetail(
+    name: String,
+    imageUrl: String
+) {
     Box(
         contentAlignment = Alignment.BottomCenter,
         modifier = Modifier
@@ -127,28 +152,4 @@ private fun ImageDetail(name: String, imageUrl: String) {
 
         TextWithShadow(text = name, modifier = Modifier)
     }
-}
-
-@Composable
-fun TextWithShadow(
-    text: String,
-    modifier: Modifier
-) {
-    Text(
-        text = text,
-        color = Color.DarkGray,
-        style = MaterialTheme.typography.h3,
-        modifier = modifier
-            .offset(
-                x = 2.dp,
-                y = 2.dp
-            )
-            .alpha(0.75f)
-    )
-    Text(
-        text = text,
-        color = Color(0xff97ce4c),
-        style = MaterialTheme.typography.h3,
-        modifier = modifier
-    )
 }

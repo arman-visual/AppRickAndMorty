@@ -22,13 +22,7 @@ class DetailViewModel @Inject constructor(
 
     var currentPage by mutableStateOf(1)
 
-    init {
-        getCharacterById(2)
-        //Añadir Evento Error en el caso de que no se pueda cargar la pagina
-        //Crear Readme
-    }
-
-    private fun getCharacterById(id:Int) {
+    fun getCharacterById(id:Int) {
         viewModelScope.launch {
             viewState = ViewState.Loading
             getCharacterByIdUseCase(id).fold(

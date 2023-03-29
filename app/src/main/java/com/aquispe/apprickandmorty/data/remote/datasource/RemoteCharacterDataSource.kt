@@ -22,4 +22,10 @@ class RemoteCharacterDataSource @Inject constructor(
             characterService.getAllCharacters().results.map { it.toDomain() }
         }
     }
+
+    override suspend fun getCharacterById(id: Int): Either<Throwable, Character> {
+        return Either.catch {
+            characterService.getCharacterById(id).toDomain()
+        }
+    }
 }

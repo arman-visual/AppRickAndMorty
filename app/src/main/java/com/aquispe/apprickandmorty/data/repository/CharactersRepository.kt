@@ -17,7 +17,7 @@ class CharactersRepository @Inject constructor(
         if (characterLocalDataSource.isEmpty()) {
             characterRemoteDataSource.getCharactersByPage(page).fold(
                 {
-                    it.left()
+                    return it.left()
                 }, { characters ->
                     characterLocalDataSource.saveCharacters(characters)
                 })
@@ -36,5 +36,9 @@ class CharactersRepository @Inject constructor(
                 })
         }
         return characterLocalDataSource.getCharacters().map { it.toDomain() }.right()
+    }
+
+    suspend fun getCharacterById(id: Int): Either<Throwable, Character> {
+           return characterRemoteDataSource.getCharacterById(id)
     }
 }

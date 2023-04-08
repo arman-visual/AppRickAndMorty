@@ -1,5 +1,8 @@
 package com.aquispe.apprickandmorty.data.remote.mapper
 
+import com.aquispe.apprickandmorty.data.local.CharacterDbModel
+import com.aquispe.apprickandmorty.data.local.LocationDbModel
+import com.aquispe.apprickandmorty.data.local.OriginDbModel
 import com.aquispe.apprickandmorty.data.remote.model.*
 import com.aquispe.apprickandmorty.domain.model.*
 
@@ -38,6 +41,31 @@ fun OriginApiModel.toDomain() = Origin(
 )
 
 fun LocationApiModel.toDomain() = Location(
+    name = name,
+    url = url
+)
+
+fun CharacterApiModel.toDbModel() = CharacterDbModel(
+    id = id,
+    name = name,
+    status = status,
+    species = species,
+    type = type,
+    gender = gender,
+    origin = origin.toDbModel(),
+    location = location.toDbModel(),
+    image = image,
+    episode = episode,
+    url = url,
+    created = created
+)
+
+fun OriginApiModel.toDbModel() = OriginDbModel(
+    name = name,
+    url = url
+)
+
+fun LocationApiModel.toDbModel() = LocationDbModel(
     name = name,
     url = url
 )

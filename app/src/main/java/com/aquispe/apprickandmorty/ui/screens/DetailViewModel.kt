@@ -20,8 +20,6 @@ class DetailViewModel @Inject constructor(
     var viewState by mutableStateOf<ViewState>(ViewState.Loading)
         private set
 
-    var currentPage by mutableStateOf(1)
-
     fun getCharacterById(id:Int) {
         viewModelScope.launch {
             viewState = ViewState.Loading

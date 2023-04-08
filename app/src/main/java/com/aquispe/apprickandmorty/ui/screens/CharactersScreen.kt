@@ -10,15 +10,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.items
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.aquispe.apprickandmorty.R.*
 import com.aquispe.apprickandmorty.domain.model.Character
 import com.aquispe.apprickandmorty.ui.screens.shared.CustomTopBar
-import com.aquispe.apprickandmorty.ui.screens.shared.ProgressBar
 
 @Composable
 fun CharactersScreen(
@@ -47,28 +47,22 @@ fun ScreenContent(
             .fillMaxSize()
     ) {
 
-        when (val viewState = viewModel.viewState) {
-            is CharactersViewModel.ViewState.Content -> CharactersContent(
-                viewState.characters,
-                onDetailScreen
-            )
-            is CharactersViewModel.ViewState.Error -> ErrorView(text = stringResource(string.unexpected_error)) {
-                viewModel.getCharacters()
-            }
-            CharactersViewModel.ViewState.Loading -> ProgressBar()
-        }
+        val characters = viewModel.allCharacters.collectAsLazyPagingItems()
+        CharactersContent(characters = characters, onDetailScreen = onDetailScreen )
     }
 }
 
 @Composable
-private fun CharactersContent(characters: List<Character>, onDetailScreen: (Int) -> Unit) {
+private fun CharactersContent(characters: LazyPagingItems<Character>, onDetailScreen: (Int) -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
     ) {
         LazyColumn(verticalArrangement = Arrangement.spacedBy(24.dp)) {
-            items(characters.size) {
-                CharacterCard(character = characters[it], onDetailScreen)
+            items(characters) {character->
+                character?.let {
+                    CharacterCard(character = character, onDetailScreen)
+                }
             }
         }
     }

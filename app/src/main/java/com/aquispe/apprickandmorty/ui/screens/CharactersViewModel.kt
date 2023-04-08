@@ -1,55 +1,79 @@
 package com.aquispe.apprickandmorty.ui.screens
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.*
+import com.aquispe.apprickandmorty.data.local.CharacterDatabase
+import com.aquispe.apprickandmorty.data.local.toDomain
+import com.aquispe.apprickandmorty.data.paging.CharacterPagingSource
+import com.aquispe.apprickandmorty.data.paging.CharacterRemoteMediator
+import com.aquispe.apprickandmorty.data.remote.mapper.toDomain
+import com.aquispe.apprickandmorty.data.remote.service.CharacterService
+import com.aquispe.apprickandmorty.data.repository.PagingRepository
 import com.aquispe.apprickandmorty.domain.model.Character
-import com.aquispe.apprickandmorty.domain.model.Info
-import com.aquispe.apprickandmorty.usecases.GetCharacters
-import com.aquispe.apprickandmorty.usecases.GetCharactersByPage
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CharactersViewModel @Inject constructor(
-    private val getCharactersByPage: GetCharactersByPage
+    private val characterDatabase: CharacterDatabase,
+    private val characterService: CharacterService,
+    private val pagingRepository: PagingRepository
 ) : ViewModel() {
 
     var viewState by mutableStateOf<ViewState>(ViewState.Loading)
         private set
 
-    var currentPage by mutableStateOf(1)
+    private var _characters = MutableStateFlow<PagingData<Character>>(PagingData.empty())
+    val characters: Flow<PagingData<Character>> = _characters
 
-    init {
-        getCharacters()
-        //TODO pagina correctamente
-        //Crear UI de Item y BottonNav
-        //Crear Screen Detalle
-        //Añadir Coil para imagenes
-        //Añadir Evento Error en el caso de que no se pueda cargar la pagina
-        //Crear Readme
+    val allCharacters = pagingRepository.getCharacters()
 
-    }
-
-    private fun getCharacters() {
-        viewModelScope.launch {
-            viewState = ViewState.Loading
-            getCharactersByPage.invoke(page = 1).fold(
-                { failure ->
-                    Log.d("DEBUG", "getCharacters: ${failure.message}}")
-                    viewState = ViewState.Error(failure)
-                },
-                { characters ->
-                    Log.d("DEBUG", "getCharacters: ${characters.size}}")
-                    viewState = ViewState.Content(characters)
-                    //Seteamos la primera ves datos de total de paginas?
-                })
+    @OptIn(ExperimentalPagingApi::class)
+    fun getAllCharactersV2(): Flow<PagingData<Character>> =
+        Pager(
+            config = PagingConfig(
+                pageSize = PAGE_SIZE
+            ),
+            pagingSourceFactory = {
+                characterDatabase.characterDbModelDao().getAllCharacters()
+            },
+            remoteMediator = CharacterRemoteMediator(
+                characterService,
+                characterDatabase,
+            )
+        ).flow.map { pagingData ->
+            pagingData.map { characterDbModel ->
+                characterDbModel.toDomain()
+            }
         }
-    }
+
+    @OptIn(ExperimentalPagingApi::class)
+    fun getSearchCharacters(query: String): Flow<PagingData<Character>> =
+        Pager(
+            config = PagingConfig(
+                pageSize = PAGE_SIZE
+            ),
+            pagingSourceFactory = {
+                CharacterPagingSource(
+                    characterService,
+                    query
+                )
+            }
+        ).flow.map { pagingData ->
+            pagingData.map { characterApiModel ->
+                characterApiModel.toDomain()
+            }
+        }
+
 
     sealed class ViewState {
         object Loading : ViewState()
@@ -57,3 +81,5 @@ class CharactersViewModel @Inject constructor(
         data class Content(val characters: List<Character>) : ViewState()
     }
 }
+
+const val PAGE_SIZE = 20

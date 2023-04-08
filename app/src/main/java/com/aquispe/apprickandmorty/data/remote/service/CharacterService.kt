@@ -25,6 +25,8 @@ interface CharacterService {
 
     @GET("character")
     suspend fun getCharactersByFilter(
+        @Query("page")
+        page: Int,
         @Query("name")
         name: String,
         @Query("status")

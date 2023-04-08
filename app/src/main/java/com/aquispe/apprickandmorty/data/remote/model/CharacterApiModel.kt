@@ -1,5 +1,8 @@
 package com.aquispe.apprickandmorty.data.remote.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class CharacterApiModel(
     val created: String,
     val episode: List<String>,

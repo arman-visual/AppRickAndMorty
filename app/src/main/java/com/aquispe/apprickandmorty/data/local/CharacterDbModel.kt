@@ -1,5 +1,6 @@
 package com.aquispe.apprickandmorty.data.local
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.aquispe.apprickandmorty.domain.model.Location
@@ -7,7 +8,7 @@ import com.aquispe.apprickandmorty.domain.model.Origin
 
 @Entity
 data class CharacterDbModel(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = false)
     val id: Int,
     val created: String,
     val episode: List<String>,

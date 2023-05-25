@@ -4,7 +4,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,7 +29,7 @@ fun CharactersScreen(
     onDetailScreen: (Int) -> Unit
 ) {
     Scaffold(
-        topBar = { CustomTopBar(title = "Characters")},
+        topBar = { CustomTopBar(title = "Characters") },
         modifier = Modifier
     ) {
         ScreenContent(it, viewModel, onDetailScreen)
@@ -47,19 +50,22 @@ fun ScreenContent(
             .fillMaxSize()
     ) {
 
-        val characters = viewModel.allCharacters.collectAsLazyPagingItems()
-        CharactersContent(characters = characters, onDetailScreen = onDetailScreen )
+        val characters = viewModel.getAllCharacters.collectAsLazyPagingItems()
+        CharactersContent(characters = characters, onDetailScreen = onDetailScreen)
     }
 }
 
 @Composable
-private fun CharactersContent(characters: LazyPagingItems<Character>, onDetailScreen: (Int) -> Unit) {
+private fun CharactersContent(
+    characters: LazyPagingItems<Character>,
+    onDetailScreen: (Int) -> Unit
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        LazyColumn(verticalArrangement = Arrangement.spacedBy(24.dp)) {
-            items(characters) {character->
+        LazyColumn{
+            items(characters) { character ->
                 character?.let {
                     CharacterCard(character = character, onDetailScreen)
                 }
@@ -74,26 +80,12 @@ fun CharacterCard(
     onDetailScreen: (Int) -> Unit
 ) {
     Card(
-        modifier = Modifier
+        modifier = Modifier.padding(vertical = 12.dp)
             .clickable { onDetailScreen(character.id) },
         elevation = 16.dp,
         shape = RoundedCornerShape(16.dp)
     ) {
         val context = LocalContext.current
-
-//        val imageLoader = ImageLoader.Builder(context)
-//            .memoryCache {
-//                MemoryCache.Builder(context)
-//                    .maxSizePercent(0.25)
-//                    .build()
-//            }
-//            .diskCache {
-//                DiskCache.Builder()
-//                    .directory(context.cacheDir.resolve("image_cache"))
-//                    .maxSizePercent(0.02)
-//                    .build()
-//            }
-//            .build()
 
         Row(
             modifier = Modifier
@@ -101,7 +93,7 @@ fun CharacterCard(
                 .fillMaxWidth()
         ) {
             AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
+                model = ImageRequest.Builder(context)
                     .data(character.image)
                     .crossfade(500)
                     .build(),

@@ -15,6 +15,9 @@ interface CharacterDbModelDao {
     @Query("SELECT * FROM CharacterDbModel")
     fun getCharacters(): List<CharacterDbModel>
 
+    @Query("SELECT * FROM CharacterDbModel WHERE id = :id")
+    fun getCharacterById(id: Int): CharacterDbModel?
+
     @Query("SELECT COUNT(id) FROM CharacterDbModel")
     fun count(): Int
 

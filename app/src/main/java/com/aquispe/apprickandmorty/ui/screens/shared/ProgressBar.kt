@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun ProgressBar() {
     CircularProgressIndicator(
-        color = Color.White,
+        color = Color.Blue,
         modifier = Modifier.height(64.dp)
     )
 }

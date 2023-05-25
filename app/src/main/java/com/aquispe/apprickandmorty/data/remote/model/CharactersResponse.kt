@@ -1,7 +1,9 @@
 package com.aquispe.apprickandmorty.data.remote.model
 
-@kotlinx.serialization.Serializable
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
 data class CharactersResponse(
     val info: InfoApiModel,
-    val results: List<CharacterApiModel>
+    val results: List<CharacterApiModel>,
 )

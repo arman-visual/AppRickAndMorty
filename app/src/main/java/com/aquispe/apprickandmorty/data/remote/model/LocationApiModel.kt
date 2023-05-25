@@ -1,7 +1,9 @@
 package com.aquispe.apprickandmorty.data.remote.model
 
-@kotlinx.serialization.Serializable
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
 data class LocationApiModel(
     val name: String,
-    val url: String
+    val url: String,
 )

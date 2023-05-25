@@ -1,26 +1,23 @@
-package com.aquispe.apprickandmorty.data.remote.service
+package soy.gabimoreno.armandoquispe2.data.remote.service
 
-import com.aquispe.apprickandmorty.data.remote.model.CharacterApiModel
-import com.aquispe.apprickandmorty.data.remote.model.CharactersResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
+import com.aquispe.apprickandmorty.data.remote.model.CharacterApiModel
+import com.aquispe.apprickandmorty.data.remote.model.CharactersResponse
 
 interface CharacterService {
-
-    @GET("character")
-    suspend fun getAllCharacters(): CharactersResponse
 
     @GET("character/{id}")
     suspend fun getCharacterById(
         @Path("id")
-        id: Int
+        id: Int,
     ): CharacterApiModel
 
     @GET("character")
     suspend fun getCharactersByPage(
         @Query("page")
-        page: Int
+        page: Int,
     ): CharactersResponse
 
     @GET("character")
@@ -31,10 +28,6 @@ interface CharacterService {
         name: String,
         @Query("status")
         status: String,
-        @Query("species")
-        species: String,
-        @Query("type")
-        type: String,
         @Query("gender")
         gender: String,
     ): CharactersResponse

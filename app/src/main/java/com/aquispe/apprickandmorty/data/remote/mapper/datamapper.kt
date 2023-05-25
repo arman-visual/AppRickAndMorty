@@ -1,10 +1,14 @@
 package com.aquispe.apprickandmorty.data.remote.mapper
 
-import com.aquispe.apprickandmorty.data.local.CharacterDbModel
-import com.aquispe.apprickandmorty.data.local.LocationDbModel
-import com.aquispe.apprickandmorty.data.local.OriginDbModel
+import com.aquispe.apprickandmorty.data.local.database.entities.CharacterDbModel
+import com.aquispe.apprickandmorty.data.local.database.entities.LocationDbModel
+import com.aquispe.apprickandmorty.data.local.database.entities.OriginDbModel
 import com.aquispe.apprickandmorty.data.remote.model.*
-import com.aquispe.apprickandmorty.domain.model.*
+import com.aquispe.apprickandmorty.domain.model.Character
+import com.aquispe.apprickandmorty.domain.model.Characters
+import com.aquispe.apprickandmorty.domain.model.Info
+import com.aquispe.apprickandmorty.domain.model.Location
+import com.aquispe.apprickandmorty.domain.model.Origin
 
 fun CharactersResponse.toDomain() = Characters(
     info = info.toDomain(),

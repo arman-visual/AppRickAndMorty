@@ -1,8 +1,8 @@
 package com.aquispe.apprickandmorty.data.remote.model
 
-import kotlinx.serialization.Serializable
+import com.squareup.moshi.JsonClass
 
-@Serializable
+@JsonClass(generateAdapter = true)
 data class CharacterApiModel(
     val created: String,
     val episode: List<String>,
@@ -15,5 +15,5 @@ data class CharacterApiModel(
     val species: String,
     val status: String,
     val type: String,
-    val url: String
+    val url: String,
 )

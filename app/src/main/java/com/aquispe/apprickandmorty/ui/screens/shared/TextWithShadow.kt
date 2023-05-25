@@ -7,17 +7,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun TextWithShadow(
     text: String,
-    modifier: Modifier
+    modifier: Modifier,
 ) {
     Text(
         text = text,
-        color = Color.DarkGray,
+        color = MaterialTheme.colors.primary,
         style = MaterialTheme.typography.h3,
+        textAlign = TextAlign.Center,
         modifier = modifier
             .offset(
                 x = 2.dp,
@@ -27,8 +29,9 @@ fun TextWithShadow(
     )
     Text(
         text = text,
-        color = Color(0xff97ce4c),
+        color = Color.Black,
         style = MaterialTheme.typography.h3,
+        textAlign = TextAlign.Center,
         modifier = modifier
     )
 }

@@ -2,13 +2,13 @@ package com.aquispe.apprickandmorty.data.paging
 
 import androidx.paging.*
 import androidx.room.withTransaction
-import com.aquispe.apprickandmorty.data.local.CharacterDatabase
-import com.aquispe.apprickandmorty.data.local.CharacterDbModel
-import com.aquispe.apprickandmorty.data.local.CharacterRemoteKeys
+import com.aquispe.apprickandmorty.data.local.database.CharacterDatabase
+import com.aquispe.apprickandmorty.data.local.database.entities.CharacterDbModel
+import com.aquispe.apprickandmorty.data.local.database.entities.CharacterRemoteKeys
 import com.aquispe.apprickandmorty.data.remote.mapper.toDbModel
 import com.aquispe.apprickandmorty.data.remote.model.CharacterApiModel
-import com.aquispe.apprickandmorty.data.remote.service.CharacterService
 import retrofit2.HttpException
+import soy.gabimoreno.armandoquispe2.data.remote.service.CharacterService
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -16,7 +16,7 @@ import javax.inject.Inject
 @OptIn(ExperimentalPagingApi::class)
 class CharacterRemoteMediator @Inject constructor(
     private val characterService: CharacterService,
-    private val characterDatabase: CharacterDatabase
+    private val characterDatabase: CharacterDatabase,
 ) : RemoteMediator<Int, CharacterDbModel>() {
 
     override suspend fun initialize(): InitializeAction {
@@ -33,20 +33,22 @@ class CharacterRemoteMediator @Inject constructor(
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, CharacterDbModel>
+        state: PagingState<Int, CharacterDbModel>,
     ): MediatorResult {
         val page: Int = when (loadType) {
-            LoadType.REFRESH -> {//Se ejecuta cuando se carga por primera vez
+            LoadType.REFRESH -> {
                 val remoteKeys: CharacterRemoteKeys? = getRemoteKeyClosestToCurrentPosition(state)
                 remoteKeys?.nextPage?.minus(1) ?: 1
             }
-            LoadType.PREPEND -> {//SE sejecuta cuando voy a detalle y vuelvo atras
+
+            LoadType.PREPEND -> {
                 val remoteKeys: CharacterRemoteKeys? = getRemoteKeyForFirstItem(state)
                 val prevKey = remoteKeys?.prevPage
                 prevKey
                     ?: return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
             }
-            LoadType.APPEND -> {//Se ejecuta cuando solicito más items
+
+            LoadType.APPEND -> {
                 val remoteKeys = getRemoteKeyForLastItem(state)
                 val nextKey = remoteKeys?.nextPage
                 nextKey
@@ -56,7 +58,7 @@ class CharacterRemoteMediator @Inject constructor(
 
         try {
             val apiResponse =
-                characterService.getCharactersByPage(page = page)//getPopularMovies(page = page)
+                characterService.getCharactersByPage(page = page)
 
             val characters = apiResponse.results
             val endOfPaginationReached = characters.isEmpty()
@@ -67,7 +69,7 @@ class CharacterRemoteMediator @Inject constructor(
                 }
                 val prevKey = if (page > 1) page - 1 else null
                 val nextKey = if (endOfPaginationReached) null else page + 1
-                val remoteKeys:List<CharacterRemoteKeys> = characters.map {characterApiModel->
+                val remoteKeys: List<CharacterRemoteKeys> = characters.map { characterApiModel ->
                     CharacterRemoteKeys(
                         id = characterApiModel.id,
                         prevPage = prevKey,
@@ -93,7 +95,7 @@ class CharacterRemoteMediator @Inject constructor(
 
     private suspend fun saveInDataBase(
         remoteKeys: List<CharacterRemoteKeys>,
-        characters: List<CharacterApiModel>
+        characters: List<CharacterApiModel>,
     ) {
         characterDatabase.remoteKeysDao().addAllRemoteKeys(remoteKeys)
         characterDatabase.characterDbModelDao()
@@ -103,7 +105,7 @@ class CharacterRemoteMediator @Inject constructor(
     private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, CharacterDbModel>): CharacterRemoteKeys? {
         return state.anchorPosition?.let { position ->
             state.closestItemToPosition(position)?.id?.let { id ->
-                characterDatabase.remoteKeysDao().getRemoteKeyByCharactersById(id)
+                characterDatabase.remoteKeysDao().getRemoteKeyById(id)
             }
         }
     }
@@ -112,7 +114,7 @@ class CharacterRemoteMediator @Inject constructor(
         return state.pages.firstOrNull {
             it.data.isNotEmpty()
         }?.data?.firstOrNull()?.let { characterDbModel ->
-            characterDatabase.remoteKeysDao().getRemoteKeyByCharactersById(characterDbModel.id)
+            characterDatabase.remoteKeysDao().getRemoteKeyById(characterDbModel.id)
         }
     }
 
@@ -120,7 +122,7 @@ class CharacterRemoteMediator @Inject constructor(
         return state.pages.lastOrNull {
             it.data.isNotEmpty()
         }?.data?.lastOrNull()?.let { characterDbModel ->
-            characterDatabase.remoteKeysDao().getRemoteKeyByCharactersById(characterDbModel.id)
+            characterDatabase.remoteKeysDao().getRemoteKeyById(characterDbModel.id)
         }
     }
 }

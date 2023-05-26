@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AppRickAndMorty</string>
+    <string name="app_name">RickAndMortyMVP</string>
     <string name="try_again">Prueba de nuevo</string>
     <string name="unexpected_error">Ha sucedido un error. Please, inténtalo de nuevo más tarde</string>
     <string name="species_title">Species:</string>

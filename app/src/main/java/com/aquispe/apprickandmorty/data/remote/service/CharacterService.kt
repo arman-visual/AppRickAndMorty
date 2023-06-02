@@ -1,4 +1,4 @@
-package soy.gabimoreno.armandoquispe2.data.remote.service
+package com.aquispe.apprickandmorty.data.remote.service
 
 import retrofit2.http.GET
 import retrofit2.http.Path

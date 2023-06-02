@@ -1,4 +1,4 @@
-package soy.gabimoreno.armandoquispe2.di
+package com.aquispe.apprickandmorty.di
 
 import dagger.Module
 import dagger.Provides

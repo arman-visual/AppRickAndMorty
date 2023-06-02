@@ -3,7 +3,7 @@ package com.aquispe.apprickandmorty.data.remote.datasource
 import arrow.core.Either
 import com.aquispe.apprickandmorty.domain.model.Character
 import com.aquispe.apprickandmorty.data.remote.mapper.toDomain
-import soy.gabimoreno.armandoquispe2.data.remote.service.CharacterService
+import com.aquispe.apprickandmorty.data.remote.service.CharacterService
 import javax.inject.Inject
 
 class RemoteCharacterDataSource @Inject constructor(

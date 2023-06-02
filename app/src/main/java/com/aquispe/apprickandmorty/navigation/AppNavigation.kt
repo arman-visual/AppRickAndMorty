@@ -8,8 +8,6 @@ import androidx.navigation.compose.rememberNavController
 import com.aquispe.apprickandmorty.ui.screens.characters.CharactersScreen
 import com.aquispe.apprickandmorty.ui.screens.detail.DetailScreen
 import com.aquispe.apprickandmorty.ui.screens.search.SearchScreen
-import soy.gabimoreno.armandoquispe2.navigation.NavArg
-import soy.gabimoreno.armandoquispe2.navigation.Route
 
 @Composable
 fun AppNavigation() {

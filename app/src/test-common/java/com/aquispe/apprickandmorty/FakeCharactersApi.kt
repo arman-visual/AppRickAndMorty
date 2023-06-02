@@ -3,7 +3,7 @@ package com.aquispe.apprickandmorty
 import com.aquispe.apprickandmorty.data.remote.model.CharacterApiModel
 import com.aquispe.apprickandmorty.data.remote.model.CharactersResponse
 import com.aquispe.apprickandmorty.data.remote.model.InfoApiModel
-import soy.gabimoreno.armandoquispe2.data.remote.service.CharacterService
+import com.aquispe.apprickandmorty.data.remote.service.CharacterService
 import java.io.IOException
 
 class FakeCharactersApi : CharacterService {

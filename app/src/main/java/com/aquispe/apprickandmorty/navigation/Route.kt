@@ -1,4 +1,4 @@
-package soy.gabimoreno.armandoquispe2.navigation
+package com.aquispe.apprickandmorty.navigation
 
 import androidx.navigation.NavType
 import androidx.navigation.navArgument

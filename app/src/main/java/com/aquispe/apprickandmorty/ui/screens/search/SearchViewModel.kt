@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import com.aquispe.apprickandmorty.data.repository.PagingRepository
-import soy.gabimoreno.armandoquispe2.di.Main
+import com.aquispe.apprickandmorty.di.Main
 import com.aquispe.apprickandmorty.domain.model.Character
 import javax.inject.Inject
 

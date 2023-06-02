@@ -9,7 +9,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import com.aquispe.apprickandmorty.data.remote.client.APIClient
 import com.aquispe.apprickandmorty.data.remote.datasource.RemoteCharacterDataSource
-import soy.gabimoreno.armandoquispe2.data.remote.service.CharacterService
+import com.aquispe.apprickandmorty.data.remote.service.CharacterService
 import com.aquispe.apprickandmorty.data.repository.DefaultCharactersRepository
 import com.aquispe.apprickandmorty.domain.repository.CharacterRepository
 import javax.inject.Singleton

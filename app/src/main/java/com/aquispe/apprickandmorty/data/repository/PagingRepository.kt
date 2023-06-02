@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import com.aquispe.apprickandmorty.data.paging.CharacterPagingSource
 import com.aquispe.apprickandmorty.data.remote.mapper.toDomain
-import soy.gabimoreno.armandoquispe2.data.remote.service.CharacterService
+import com.aquispe.apprickandmorty.data.remote.service.CharacterService
 
 import javax.inject.Inject
 

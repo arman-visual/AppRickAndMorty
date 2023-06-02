@@ -8,7 +8,7 @@ import com.aquispe.apprickandmorty.data.local.database.entities.CharacterRemoteK
 import com.aquispe.apprickandmorty.data.remote.mapper.toDbModel
 import com.aquispe.apprickandmorty.data.remote.model.CharacterApiModel
 import retrofit2.HttpException
-import soy.gabimoreno.armandoquispe2.data.remote.service.CharacterService
+import com.aquispe.apprickandmorty.data.remote.service.CharacterService
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject

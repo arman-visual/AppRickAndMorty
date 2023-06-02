@@ -10,7 +10,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import com.aquispe.apprickandmorty.data.paging.CharacterRemoteMediator
-import soy.gabimoreno.armandoquispe2.data.remote.service.CharacterService
+import com.aquispe.apprickandmorty.data.remote.service.CharacterService
 import javax.inject.Singleton
 
 @OptIn(ExperimentalPagingApi::class)

@@ -4,7 +4,7 @@ import androidx.annotation.VisibleForTesting
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.aquispe.apprickandmorty.data.remote.model.CharacterApiModel
-import soy.gabimoreno.armandoquispe2.data.remote.service.CharacterService
+import com.aquispe.apprickandmorty.data.remote.service.CharacterService
 import javax.inject.Inject
 
 class CharacterPagingSource @Inject constructor(

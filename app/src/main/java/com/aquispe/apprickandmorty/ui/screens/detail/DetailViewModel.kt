@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
-import soy.gabimoreno.armandoquispe2.di.Main
+import com.aquispe.apprickandmorty.di.Main
 import com.aquispe.apprickandmorty.domain.model.Character
 import com.aquispe.apprickandmorty.usecases.GetCharacterByIdUseCase
 import javax.inject.Inject

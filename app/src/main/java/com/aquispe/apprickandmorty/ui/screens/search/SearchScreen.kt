@@ -133,6 +133,7 @@ private fun SearchWidget(
         ),
         leadingIcon = {
             Icon(
+                tint = MaterialTheme.colors.onBackground,
                 imageVector = Icons.Default.Search,
                 contentDescription = stringResource(R.string.serach_icon_description),
             )
@@ -156,7 +157,9 @@ private fun SearchWidget(
                     Icon(
                         imageVector = ImageVector.vectorResource(id = R.drawable.ic_filter),
                         contentDescription = stringResource(R.string.filter_icon_description),
-                        tint = if (stateUi.genderFilter.isNotEmpty() || stateUi.statusFilter.isNotEmpty()) GreenDark else Color.DarkGray,
+                        tint = if (stateUi.genderFilter.isNotEmpty() || stateUi.statusFilter
+                                .isNotEmpty()) MaterialTheme.colors.primary else
+                                    MaterialTheme.colors.onPrimary,
                         modifier = Modifier
                             .height(32.dp)
                     )
@@ -260,7 +263,8 @@ fun FilterDialog(
                 IconButton(onClick = { onDismissRequest() }) {
                     Icon(
                         imageVector = Icons.Filled.Close,
-                        contentDescription = stringResource(R.string.icon_close_description)
+                        contentDescription = stringResource(R.string.icon_close_description),
+                        tint = MaterialTheme.colors.onBackground,
                     )
                 }
             }
@@ -271,17 +275,19 @@ fun FilterDialog(
                 OutlinedTextField(
                     value = stateUi.statusFilter,
                     colors = TextFieldDefaults.outlinedTextFieldColors(
-                        textColor = GreenDark
+                        textColor = MaterialTheme.colors.onPrimary
                     ),
                     textStyle = TextStyle(
                         fontFamily = FontFamily.SansSerif,
+                        color = MaterialTheme.colors.primary,
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp
                     ),
                     placeholder = {
                         Text(
                             text = stringResource(id = R.string.placeholder_filter_select),
-                            fontFamily = FontFamily.SansSerif
+                            fontFamily = FontFamily.SansSerif,
+                            color = MaterialTheme.colors.onPrimary
                         )
                     },
                     onValueChange = { viewModel.updateStatusFilter(it) },
@@ -314,17 +320,19 @@ fun FilterDialog(
                 OutlinedTextField(
                     value = stateUi.genderFilter,
                     colors = TextFieldDefaults.outlinedTextFieldColors(
-                        textColor = GreenDark
+                        textColor = MaterialTheme.colors.onPrimary
                     ),
                     placeholder = {
                         Text(
                             text = stringResource(R.string.placeholder_filter_select),
                             fontFamily = FontFamily.SansSerif,
+                            color = MaterialTheme.colors.onPrimary
                         )
                     },
                     textStyle = TextStyle(
                         fontFamily = FontFamily.SansSerif,
                         fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colors.primary,
                         fontSize = 18.sp
                     ),
                     onValueChange = { viewModel.updateGenderFilter(it) },
@@ -358,7 +366,7 @@ fun FilterDialog(
                     text = stringResource(R.string.action_clean_filter),
                     style = MaterialTheme.typography.button,
                     fontFamily = FontFamily.SansSerif,
-                    color = Green,
+                    color = MaterialTheme.colors.primary,
                     modifier = Modifier.clickable { viewModel.cleanFilters() }
                 )
                 Button(onClick = {
@@ -368,7 +376,7 @@ fun FilterDialog(
                     Text(
                         text = stringResource(R.string.action_search),
                         style = MaterialTheme.typography.button,
-                        color = Color.White,
+                        color = MaterialTheme.colors.onPrimary,
                         fontFamily = FontFamily.SansSerif,
                     )
                 }
@@ -379,5 +387,5 @@ fun FilterDialog(
 
 @Composable
 private fun FilterSelected(filter: String) {
-    Text(text = filter, color = Green, fontFamily = FontFamily.SansSerif)
+    Text(text = filter, color = MaterialTheme.colors.primary, fontFamily = FontFamily.SansSerif)
 }

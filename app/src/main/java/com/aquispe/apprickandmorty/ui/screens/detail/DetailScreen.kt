@@ -2,15 +2,7 @@ package com.aquispe.apprickandmorty.ui.screens.detail
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -19,15 +11,16 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -40,7 +33,6 @@ import com.aquispe.apprickandmorty.ui.screens.shared.CustomError
 import com.aquispe.apprickandmorty.ui.screens.shared.CustomTopBar
 import com.aquispe.apprickandmorty.ui.screens.shared.ProgressBar
 import com.aquispe.apprickandmorty.ui.screens.shared.TextWithShadow
-import com.aquispe.apprickandmorty.ui.theme.Green
 
 @Composable
 fun DetailScreen(
@@ -116,23 +108,43 @@ private fun CharacterHeader(
 
 @Composable
 private fun CharacterBody(viewState: Character) {
-    SectionWithInformation(stringResource(R.string.species_title), viewState.species)
+    SectionWithInformation(
+        titleInformation = stringResource(R.string.species_title),
+        information = viewState.species,
+        imageVector = ImageVector.vectorResource(id = R.drawable.ic_adn)
+    )
 
     Spacer(modifier = Modifier.height(8.dp))
 
-    SectionWithInformation(stringResource(R.string.status_title), viewState.status)
+    SectionWithInformation(
+        titleInformation = stringResource(R.string.status_title),
+        information = viewState.status,
+        imageVector = ImageVector.vectorResource(id = R.drawable.ic_state)
+    )
 
     Spacer(modifier = Modifier.height(8.dp))
 
-    SectionWithInformation(stringResource(R.string.gender_title), viewState.gender)
+    SectionWithInformation(
+        titleInformation = stringResource(R.string.gender_title),
+        information = viewState.gender,
+        imageVector = ImageVector.vectorResource(id = R.drawable.ic_gender)
+    )
 
     Spacer(modifier = Modifier.height(8.dp))
 
-    SectionWithInformation(stringResource(R.string.first_seen_in_title), viewState.location.name)
+    SectionWithInformation(
+        titleInformation = stringResource(R.string.first_seen_in_title),
+        information = viewState.location.name,
+        imageVector = ImageVector.vectorResource(id = R.drawable.ic_first_observe)
+    )
 
     Spacer(modifier = Modifier.height(8.dp))
 
-    SectionWithInformation(stringResource(R.string.last_know_location_title), viewState.origin.name)
+    SectionWithInformation(
+        titleInformation = stringResource(R.string.last_know_location_title),
+        information = viewState.origin.name,
+        imageVector = ImageVector.vectorResource(id = R.drawable.ic_last_observe)
+    )
 }
 
 @Composable
@@ -154,6 +166,7 @@ private fun CharacterName(
 private fun SectionWithInformation(
     titleInformation: String,
     information: String,
+    imageVector: ImageVector
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -162,7 +175,7 @@ private fun SectionWithInformation(
             .padding(horizontal = 8.dp, vertical = 4.dp)
     ) {
         Image(
-            imageVector = Icons.Filled.Info,
+            imageVector = imageVector,
             contentDescription = null
         )
 

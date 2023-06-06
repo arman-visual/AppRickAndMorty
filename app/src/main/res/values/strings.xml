@@ -1,3 +1,28 @@
 <resources>
-    <string name="app_name">AppRickAndMorty</string>
+    <string name="app_name">RickAndMortyMVP</string>
+    <string name="try_again">Prueba de nuevo</string>
+    <string name="unexpected_error">Ha sucedido un error. Please, inténtalo de nuevo más tarde</string>
+    <string name="species_title">Species:</string>
+    <string name="status_title">Status:</string>
+    <string name="gender_title">Gender:</string>
+    <string name="first_seen_in_title">First seen in:</string>
+    <string name="last_know_location_title">Last know location:</string>
+    <string name="topbar_detail_title">Detail</string>
+    <string name="retry_action">Try again</string>
+    <string name="default_error">Something went wrong</string>
+    <string name="error_image_description">Error Image</string>
+    <string name="action_pagination_refresh">Refresh</string>
+    <string name="paging_refresh_state_loading">Refresh Loading</string>
+    <string name="action_clean_filter">Clear Filters</string>
+    <string name="title_filter_gender">Gender</string>
+    <string name="title_filter_status">Status</string>
+    <string name="title_filter_dialog">Filters</string>
+    <string name="action_apply_filters">Apply Filters</string>
+    <string name="serach_icon_description">Search Icon</string>
+    <string name="close_icon_description">Close Icon</string>
+    <string name="filter_icon_description">Filter Icon</string>
+    <string name="icon_close_description">Close Icon</string>
+    <string name="placeholder_filter_select">Select option</string>
+    <string name="action_search">Search</string>
+    <string name="search_empty">There is nothing here</string>
 </resources>

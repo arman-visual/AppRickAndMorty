@@ -6,38 +6,24 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.aquispe.apprickandmorty.ui.theme.AppRickAndMortyTheme
+import dagger.hilt.android.AndroidEntryPoint
+import com.aquispe.apprickandmorty.navigation.AppNavigation
+import com.aquispe.apprickandmorty.ui.theme.ArmandoQuispe2Theme
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            AppRickAndMortyTheme {
-                // A surface container using the 'background' color from the theme
+            ArmandoQuispe2Theme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting("Android")
+                    AppNavigation()
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    AppRickAndMortyTheme {
-        Greeting("Android")
     }
 }

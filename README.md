@@ -30,13 +30,13 @@ The project is primarily built using Kotlin programming language.
 - Room (persistence)
 - Coroutines KTX and Flow
 - Retrofit
-- Hilt (DI)
-- Turbine
-- Paging3 (pagination)
-- Arrow
 - Moshi
+- Arrow
+- Hilt (DI)
+- Paging3 (pagination)
 - Mockk (testing)
 - JUnit (testing)
+- Turbine
 
 ## 📝 Licencia
 
